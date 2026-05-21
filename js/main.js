@@ -60,4 +60,30 @@ loader.load(
 // 5. Osvětlení scény
 // DirectionalLight funguje jako slunce (paralelní paprsky), pozice určuje směr, odkud svítí
 const topLight = new THREE.DirectionalLight(0xffffff, 1.5);
-topLight.position.set(100, 100, 100
+topLight.position.set(100, 100, 100); 
+scene.add(topLight);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+scene.add(ambientLight);
+
+// 6. Animační smyčka (vykreslování)
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Aktualizace OrbitControls pro plynulý pohyb
+  if (controls) {
+    controls.update();
+  }
+
+  renderer.render(scene, camera);
+}
+
+// 7. Responzivita při změně velikosti okna prohlížeče
+window.addEventListener("resize", function () {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Spuštění celé aplikace
+animate();
