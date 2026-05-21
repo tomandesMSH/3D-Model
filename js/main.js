@@ -29,9 +29,12 @@ const loader = new GLTFLoader();
 //Load the file
 // Načtení tvé kostky (změna cesty)
 loader.load(
-  './kostka.glb', // <--- TENTO ŘÁDEK UPRAV (odstranili jsme "models/")
+  './kostka.glb',
   function (gltf) {
     object = gltf.scene;
+
+    object.scale.set(30, 30, 30); 
+
     scene.add(object);
     console.log("Kostka byla úspěšně načtena!");
   },
