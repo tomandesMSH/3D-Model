@@ -5,10 +5,11 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 // 1. Vytvoření scény a kamery
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5; // Výchozí vzdálenost kamery od kostky
+
+// Oddálíme kameru trochu víc, aby se nám tam vešly všechny 3 kostky vedle sebe
+camera.position.z = 15; 
 
 // Globální proměnné
-let object;
 let controls;
 
 // 2. Inicializace rendereru
@@ -16,24 +17,36 @@ const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("container3D").appendChild(renderer.domElement);
 
-// 3. Aktivace OrbitControls (ovládání myší: klik + táhni)
+// 3. Aktivace OrbitControls (ovládání myší)
 controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; // Plynulé dotáčení při puštění myši
+controls.enableDamping = true; 
 controls.dampingFactor = 0.05;
 
-// 4. Načtení 3D modelu kostky
+// 4. Načtení 3D modelu a jeho klonování
 const loader = new GLTFLoader();
 loader.load(
-  './kostka.glb', // Cesta ke kostce vedle index.html
+  './kostka.glb', 
   function (gltf) {
-    object = gltf.scene;
+    // Vezmeme základní model a nastavíme mu velikost
+    const baseCube = gltf.scene;
+    baseCube.scale.set(30, 30, 30); 
 
-    // Pokud je kostka z Blenderu moc malá, tady ji zvětšujeme (X, Y, Z)
-    // Pokud by byla moc obří, změň 30 na menší číslo (třeba 5 nebo 10)
-    object.scale.set(30, 30, 30); 
+    // --- PROSTŘEDNÍ KOSTKA ---
+    const cube1 = baseCube;
+    cube1.position.set(0, 0, 0); // Střed (X = 0)
+    scene.add(cube1);
 
-    scene.add(object);
-    console.log("Kostka byla úspěšně načtena!");
+    // --- LEVÁ KOSTKA ---
+    const cube2 = baseCube.clone(); // Vytvoříme kopii
+    cube2.position.set(-5, 0, 0);   // Posuneme doleva na ose X (X = -5)
+    scene.add(cube2);
+
+    // --- PRAVÁ KOSTKA ---
+    const cube3 = baseCube.clone(); // Vytvoříme další kopii
+    cube3.position.set(5, 0, 0);    // Posuneme doprava na ose X (X = 5)
+    scene.add(cube3);
+
+    console.log("Všechny 3 kostky byly úspěšně načteny!");
   },
   function (xhr) {
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -55,7 +68,6 @@ scene.add(ambientLight);
 function animate() {
   requestAnimationFrame(animate);
 
-  // Aktualizace ovládání kamery (nutné pro plynulé dotáčení)
   if (controls) {
     controls.update();
   }
@@ -63,12 +75,12 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// 7. Responzivita (přizpůsobení při změně velikosti okna prohlížeče)
+// 7. Responzivita při změně velikosti okna
 window.addEventListener("resize", function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Spuštění celé aplikace
+// Spuštění aplikace
 animate();
