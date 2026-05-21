@@ -6,8 +6,7 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// Kamera je posunutá na hodnotu 150, aby obsáhla všechny tři velké kostky najednou
-camera.position.z = 150; 
+camera.position.z = 5; 
 
 // Globální proměnné pro ovládání
 let controls;
@@ -29,25 +28,13 @@ loader.load(
   function (gltf) {
     const baseCube = gltf.scene;
     
-    // Nastavení měřítka z Blenderu
-    baseCube.scale.set(30, 30, 30); 
+    // Nastavení měřítka
+    baseCube.scale.set(1, 1, 1);
 
-    // --- PROSTŘEDNÍ KOSTKA ---
-    const cube1 = baseCube;
-    cube1.position.set(0, 0, 0); 
-    scene.add(cube1);
+    baseCube.position.set(0, 0, 0);
+    scene.add(baseCube);
 
-    // --- LEVÁ KOSTKA ---
-    const cube2 = baseCube.clone(); 
-    cube2.position.set(-80, 0, 0); // Výrazný posun doleva na ose X
-    scene.add(cube2);
-
-    // --- PRAVÁ KOSTKA ---
-    const cube3 = baseCube.clone(); 
-    cube3.position.set(80, 0, 0);  // Výrazný posun doprava na ose X
-    scene.add(cube3);
-
-    console.log("Všechny 3 kostky byly úspěšně načteny a rozmístěny!");
+    console.log("Model byl úspěšně načten!");
   },
   function (xhr) {
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
