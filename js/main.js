@@ -32,6 +32,7 @@ loader.load(
     baseCube.scale.set(1, 1, 1);
 
     baseCube.position.set(0, 0, 0);
+    baseCube.rotation.y = Math.PI; // Otočení modelu čelem ke kameře
     scene.add(baseCube);
 
     console.log("Model byl úspěšně načten!");
