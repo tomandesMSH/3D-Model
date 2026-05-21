@@ -27,20 +27,19 @@ let objToRender = 'eye';
 const loader = new GLTFLoader();
 
 //Load the file
+// Načtení tvé kostky (změna cesty)
 loader.load(
-  `./models/${objToRender}/scene.gltf`,
+  './kostka.glb', // <--- TENTO ŘÁDEK UPRAV (odstranili jsme "models/")
   function (gltf) {
-    //If the file is loaded, add it to the scene
     object = gltf.scene;
     scene.add(object);
+    console.log("Kostka byla úspěšně načtena!");
   },
   function (xhr) {
-    //While it is loading, log the progress
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
   },
   function (error) {
-    //If there is an error, log it
-    console.error(error);
+    console.error("Chyba při načítání modelu:", error);
   }
 );
 
