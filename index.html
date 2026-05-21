@@ -1,13 +1,32 @@
-<!--
-  EYE FREE MODEL 3D BY Oscar creativo by OSCAR CREATIVO is licensed under Creative Commons Attribution.
-  Juvenile Teratophoneus curriei byrankinstudio is licensed under Creative Commons Attribution.
--->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>A simple Three.JS App</title>
-    <link rel="stylesheet" href="css/style.css" />
+    
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #1a1a1a; /* Tmavé pozadí, na kterém kostka vynikne */
+        font-family: sans-serif;
+        color: white;
+      }
+
+      header {
+        position: absolute; /* Nadpis bude plavat nad 3D scénou */
+        top: 20px;
+        left: 20px;
+        z-index: 10; /* Aby byl nadpis vidět před kostkou */
+        pointer-events: none; /* Aby šlo klikat skrz nadpis na kostku */
+      }
+
+      #container3D {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <header>
